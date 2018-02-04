@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f7a7372c8deec90a4e159113229c5fc",
+    "content-hash": "0125805e1d76a0bf9bbc19b12bf2dc4f",
     "packages": [
         {
             "name": "cakephp/chronos",
