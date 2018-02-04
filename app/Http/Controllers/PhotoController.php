@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class PhotoController extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
-      $photos = DB::table('photos')->paginate(15);
-      return $photos;
+      $per_page = (int)$request->input('per_page', 30);
+      $photos = Photo::paginate($per_page);
+      
+      return $photos->appends($request->except('page'));
   }
 }
