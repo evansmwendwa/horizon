@@ -25,4 +25,19 @@ class Photo extends Model
         'tags',
         'classified_date'
     ];
+
+    public function getObjectAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    public function setObjectAttribute($value)
+    {
+        $this->attributes['object'] = json_encode($value);
+    }
+
+    public function getClassifiedAttribute($value)
+    {
+      return (bool)$value;
+    }
 }
