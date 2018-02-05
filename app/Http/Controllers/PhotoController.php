@@ -11,7 +11,7 @@ class PhotoController extends Controller
   public function index(Request $request)
   {
       $per_page = (int)$request->input('per_page', 30);
-      $photos = Photo::paginate($per_page);
+      $photos = Photo::orderByDesc('creation_date')->paginate($per_page);
 
       // cleanup unnecessary data
       foreach($photos->items() as $item) {
@@ -29,7 +29,7 @@ class PhotoController extends Controller
       $q = $request->input('query');
       $per_page = (int)$request->input('per_page', 30);
 
-      $photos = Photo::search($q)->paginate($per_page);
+      $photos = Photo::search($q)->orderBy('creation_date')->paginate($per_page);
 
       foreach($photos->items() as $item) {
           $user = clone $item->object->user;
