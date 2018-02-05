@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Photo;
-use Illuminate\Support\Facades\DB;
 
 class PhotoController extends Controller
 {
@@ -12,7 +12,15 @@ class PhotoController extends Controller
   {
       $per_page = (int)$request->input('per_page', 30);
       $photos = Photo::paginate($per_page);
-      
+
+      // cleanup unnecessary data
+      foreach($photos->items() as $item) {
+          $user = clone $item->object->user;
+          $item->native_links = $item->object->links;
+          unset($user->links, $item->object);
+          $item->user = $user;
+      }
+
       return $photos->appends($request->except('page'));
   }
 }
