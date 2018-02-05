@@ -23,4 +23,21 @@ class PhotoController extends Controller
 
       return $photos->appends($request->except('page'));
   }
+
+  public function search(Request $request)
+  {
+      $q = $request->input('query');
+      $per_page = (int)$request->input('per_page', 30);
+
+      $photos = Photo::search($q)->paginate($per_page);
+
+      foreach($photos->items() as $item) {
+          $user = clone $item->object->user;
+          $item->native_links = $item->object->links;
+          unset($user->links, $item->object);
+          $item->user = $user;
+      }
+
+      return $photos->appends($request->except('page'));
+  }
 }

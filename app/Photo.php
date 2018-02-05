@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Photo extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'tracking_code',
         'color',
@@ -39,5 +42,17 @@ class Photo extends Model
     public function getClassifiedAttribute($value)
     {
       return (bool)$value;
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->only('tags', 'description');
+
+        return $array;
     }
 }
