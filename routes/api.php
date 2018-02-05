@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('photos', 'PhotoController@index');
+
+Route::get('sync','SyncController@sync');
