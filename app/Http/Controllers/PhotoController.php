@@ -24,6 +24,26 @@ class PhotoController extends Controller
       return $photos->appends($request->except('page'));
   }
 
+  public function random(Request $request)
+  {
+      $per_page = (int)$request->input('per_page', 5);
+
+      $photos = Photo::orderBy('likes', 'desc')
+        ->take(200)
+        ->get()
+        ->random($per_page);
+
+      // cleanup unnecessary data
+      foreach($photos as $item) {
+          $user = clone $item->object->user;
+          $item->native_links = $item->object->links;
+          unset($user->links, $item->object);
+          $item->user = $user;
+      }
+
+      return $photos;
+  }
+
   public function search(Request $request)
   {
       $q = $request->input('query');
